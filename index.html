@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brainstorm Classes</title>
+    <title>Recorded Live Lectures</title>
     <style>
         * {
             margin: 0;
@@ -16,8 +16,6 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            height: 100vh;
-            justify-content: center;
         }
         .header {
             width: 100%;
@@ -25,87 +23,13 @@
             color: white;
             text-align: center;
             padding: 15px;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             position: fixed;
             top: 0;
             left: 0;
         }
-        .notice-board {
-            background: yellow;
-            padding: 10px;
-            width: 90%;
-            max-width: 900px;
-            text-align: center;
-            font-weight: bold;
-            margin-top: 10px;
-            border-radius: 5px;
-            display: none;
-        }
-        .dialog-box {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 30px;
-            text-align: center;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-        }
-        .dialog-box h2 {
-            margin-bottom: 20px;
-        }
-        .dialog-box input {
-            width: 80%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .dialog-box button {
-            padding: 10px 20px;
-            border: none;
-            background: #007bff;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 10px;
-            transition: 0.3s;
-        }
-        .dialog-box button:hover {
-            background: #0056b3;
-        }
-        .container {
-            display: none;
-            width: 90%;
-            max-width: 900px;
-            margin-top: 10px;
-            background: white;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            padding: 15px;
-        }
-        .lecture-section {
-            background: white;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-        }
-        .lecture-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        iframe {
-            width: 100%;
-            height: 250px;
-            border: none;
-            border-radius: 10px;
-        }
         .back-button {
-            display: none;
             position: fixed;
             top: 10px;
             left: 10px;
@@ -115,11 +39,71 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
         }
-        @media (max-width: 600px) {
-            iframe {
-                height: 200px;
-            }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin-top: 80px;
+            padding: 10px;
+        }
+        .playlist {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .video-container {
+            width: 100%;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        .video-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        iframe {
+            width: 100%;
+            height: 200px;
+            border: none;
+            border-radius: 10px;
+        }
+        .password-container, .subject-container {
+            text-align: center;
+            margin-top: 100px;
+        }
+        .input-box {
+            padding: 10px;
+            width: 80%;
+            max-width: 250px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            font-size: 16px;
+            outline: none;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .btn {
+            display: inline-block;
+            width: 80%;
+            max-width: 250px;
+            padding: 10px;
+            margin: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background: #0056b3;
         }
     </style>
 </head>
@@ -130,31 +114,25 @@
         Recorded Live Lectures
     </div>
 
-    <!-- Password Dialog -->
-    <div id="password-dialog" class="dialog-box">
+    <!-- Password Section -->
+    <div id="password-dialog" class="password-container">
         <h2>Enter Password to Access</h2>
-        <input type="password" id="password" placeholder="Enter Password">
-        <button onclick="checkPassword('class10')">Class 10th</button>
-        <button onclick="checkPassword('class12')">Class 12th</button>
+        <input type="password" id="password" class="input-box" placeholder="Enter Password">
+        <br>
+        <button class="btn" onclick="checkPassword('class10')">Class 10</button>
+        <button class="btn" onclick="checkPassword('class12')">Class 12</button>
     </div>
 
     <!-- Subject Selection -->
-    <div id="subject-selection" class="dialog-box" style="display: none;">
+    <div id="subject-selection" class="subject-container" style="display: none;">
         <h2>Select a Subject</h2>
         <div id="subject-buttons"></div>
     </div>
-<br></br>  
-    <br></br>
-        <br></br>
-            <br></br>  
-                <br></br>
-                    <br></br>
-                        <br></br>  
- <!-- Notice Board -->
-    <div id="notice-board" class="notice-board">🔔 Important: Please On autorotation Mode on your device to enjoy lecture 🙈</div>
 
-    <!-- Lecture Sections -->
-    <div id="main-container" class="container"></div>
+    <!-- Video Playlist -->
+    <div id="main-container" class="container" style="display: none;">
+        <div class="playlist" id="playlist"></div>
+    </div>
 
     <script>
         const PASSWORD = "1234"; // Change this to your actual password
@@ -162,26 +140,26 @@
         const lectures = {
             class10: {
                 Math: [
-                    { topic: "Area Related to Circle|Lecture 01", url: "https://www.youtube.com/embed/r6WIeZqcFc8?si=74y8WTCbVOFoRMVZ" },
-                    { topic: "Area Related to circle | Lecture 02", url: "https://www.youtube.com/embed/S6ocEOivmfk?si=Gr8cZLZ1NmsNuGmd" }
-                    
+                    { topic: "Lecture 01", url: "https://www.youtube.com/embed/r6WIeZqcFc8" },
+                    { topic: "Lecture 02", url: "https://www.youtube.com/embed/S6ocEOivmfk" },
+                    { topic: "Lecture 03", url: "https://www.youtube.com/embed/example1" },
+                    { topic: "Lecture 04", url: "https://www.youtube.com/embed/example2" }
                 ],
-               
                 Science: [
-                    { topic: "Physics Motion Lecture 01", url: "" },
-                    { topic: "Chemistry Atoms Lecture 02", url: "" }
+                    { topic: "Physics Motion", url: "https://www.youtube.com/embed/example3" },
+                    { topic: "Chemistry Atoms", url: "https://www.youtube.com/embed/example4" }
                 ]
             },
             class12: {
                 Physics: [
-                    { topic: "Electricity Lecture 01", url: "https://www.youtube.com/embed/kJQP7kiw5Fk" },
-                    { topic: "Magnetism Lecture 02", url: "https://www.youtube.com/embed/2Vv-BfVoq4g" }
+                    { topic: "Electricity", url: "https://www.youtube.com/embed/kJQP7kiw5Fk" },
+                    { topic: "Magnetism", url: "https://www.youtube.com/embed/2Vv-BfVoq4g" }
                 ],
                 Chemistry: [
-                    { topic: "Organic Chemistry Lecture 01", url: "https://www.youtube.com/embed/UceaB4D0jpo" }
+                    { topic: "Organic Chemistry", url: "https://www.youtube.com/embed/UceaB4D0jpo" }
                 ],
                 Math: [
-                    { topic: "Integration Lecture 01", url: "https://www.youtube.com/embed/OPf0YbXqDm0" }
+                    { topic: "Integration", url: "https://www.youtube.com/embed/OPf0YbXqDm0" }
                 ]
             }
         };
@@ -201,7 +179,6 @@
             selectedClass = className;
             document.getElementById("password-dialog").style.display = "none";
             document.getElementById("subject-selection").style.display = "block";
-            document.getElementById("back-button").style.display = "block";
 
             const subjects = Object.keys(lectures[className]);
             const subjectButtons = document.getElementById("subject-buttons");
@@ -210,6 +187,7 @@
             subjects.forEach(subject => {
                 const btn = document.createElement("button");
                 btn.innerText = subject;
+                btn.className = "btn";
                 btn.onclick = () => showLectures(subject);
                 subjectButtons.appendChild(btn);
             });
@@ -218,26 +196,25 @@
         function showLectures(subjectName) {
             document.getElementById("subject-selection").style.display = "none";
             document.getElementById("main-container").style.display = "block";
-            document.getElementById("notice-board").style.display = "block";
 
-            const mainContainer = document.getElementById("main-container");
-            mainContainer.innerHTML = ""; 
+            const playlist = document.getElementById("playlist");
+            playlist.innerHTML = ""; 
 
             lectures[selectedClass][subjectName].forEach(video => {
-                const section = document.createElement("div");
-                section.classList.add("lecture-section");
+                const videoContainer = document.createElement("div");
+                videoContainer.classList.add("video-container");
 
                 const title = document.createElement("div");
-                title.classList.add("lecture-title");
-                title.innerText = `${subjectName}: ${video.topic}`;
+                title.classList.add("video-title");
+                title.innerText = video.topic;
 
                 const iframe = document.createElement("iframe");
                 iframe.src = video.url;
                 iframe.allowFullscreen = true;
 
-                section.appendChild(title);
-                section.appendChild(iframe);
-                mainContainer.appendChild(section);
+                videoContainer.appendChild(title);
+                videoContainer.appendChild(iframe);
+                playlist.appendChild(videoContainer);
             });
         }
 
