@@ -1,4 +1,4 @@
-<!DOCTYPE html>  
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -28,20 +28,26 @@
             position: fixed;
             top: 0;
             left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .back-button {
+        .back-button, .logout-button {
             position: absolute;
             top: 10px;
-            left: 10px;
             padding: 8px 15px;
-            background: red;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-size: 14px;
             font-weight: bold;
+            transition: 0.3s;
         }
+        .back-button { left: 10px; background: red; }
+        .logout-button { right: 10px; background: black; }
+        .back-button:hover { background: darkred; }
+        .logout-button:hover { background: #444; }
         .container {
             width: 90%;
             max-width: 600px;
@@ -52,6 +58,8 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
+            overflow-y: auto;
+            max-height: 500px;
         }
         .video-container {
             width: 100%;
@@ -111,7 +119,8 @@
 
     <div class="header">
         <button id="back-button" class="back-button" onclick="goBack()" style="display: none;">Back</button>
-        Recorded Live Lectures
+        Recorded Lecture
+        <button id="logout-button" class="logout-button" onclick="logout()" style="display: none;">Logout</button>
     </div>
 
     <!-- Password Section -->
@@ -137,15 +146,13 @@
     <script>
         const PASSWORD = "1234"; // Change this to your actual password
         let selectedClass = "";
-        let currentStep = "password"; // Track the current step
+        let currentStep = "password"; 
 
         const lectures = {
             class10: {
                 Math: [
                     { topic: "Lecture 01", url: "https://www.youtube.com/embed/r6WIeZqcFc8" },
-                    { topic: "Lecture 02", url: "https://www.youtube.com/embed/S6ocEOivmfk" },
-                    { topic: "Lecture 03", url: "https://www.youtube.com/embed/example1" },
-                    { topic: "Lecture 04", url: "https://www.youtube.com/embed/example2" }
+                    { topic: "Lecture 02", url: "https://www.youtube.com/embed/S6ocEOivmfk" }
                 ],
                 Science: [
                     { topic: "Physics Motion", url: "https://www.youtube.com/embed/example3" },
@@ -159,9 +166,6 @@
                 ],
                 Chemistry: [
                     { topic: "Organic Chemistry", url: "https://www.youtube.com/embed/UceaB4D0jpo" }
-                ],
-                Math: [
-                    { topic: "Integration", url: "https://www.youtube.com/embed/OPf0YbXqDm0" }
                 ]
             }
         };
@@ -181,6 +185,7 @@
             document.getElementById("password-dialog").style.display = "none";
             document.getElementById("subject-selection").style.display = "block";
             document.getElementById("back-button").style.display = "block";
+            document.getElementById("logout-button").style.display = "block";
 
             const subjects = Object.keys(lectures[selectedClass]);
             const subjectButtons = document.getElementById("subject-buttons");
@@ -222,39 +227,21 @@
         }
 
         function goBack() {
+            stopAllVideos();
             if (currentStep === "video") {
                 document.getElementById("main-container").style.display = "none";
                 document.getElementById("subject-selection").style.display = "block";
                 currentStep = "subject";
-            } else if (currentStep === "subject") {
-                document.getElementById("subject-selection").style.display = "none";
-                document.getElementById("password-dialog").style.display = "block";
-                document.getElementById("back-button").style.display = "none";
-                currentStep = "password";
             }
         }
-        function goBack() {
-    stopAllVideos(); // Stop any playing video
 
-    if (currentStep === "video") {
-        document.getElementById("main-container").style.display = "none";
-        document.getElementById("subject-selection").style.display = "block";
-        currentStep = "subject";
-    } else if (currentStep === "subject") {
-        document.getElementById("subject-selection").style.display = "none";
-        document.getElementById("password-dialog").style.display = "block";
-        document.getElementById("back-button").style.display = "none";
-        currentStep = "password";
-    }
-}
+        function stopAllVideos() {
+            document.querySelectorAll("iframe").forEach(iframe => iframe.src = iframe.src);
+        }
 
-// Function to stop all playing videos
-function stopAllVideos() {
-    document.querySelectorAll("iframe").forEach(iframe => {
-        iframe.src = iframe.src; // Reset the iframe source to stop playback
-    });
-}
-
+        function logout() {
+            location.reload();
+        }
     </script>
 
 </body>
