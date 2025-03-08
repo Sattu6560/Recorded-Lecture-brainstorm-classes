@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html>  
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -30,7 +30,7 @@
             left: 0;
         }
         .back-button {
-            position: fixed;
+            position: absolute;
             top: 10px;
             left: 10px;
             padding: 8px 15px;
@@ -110,7 +110,7 @@
 <body>
 
     <div class="header">
-        <button id="back-button" class="back-button" onclick="goBack()">Back</button>
+        <button id="back-button" class="back-button" onclick="goBack()" style="display: none;">Back</button>
         Recorded Live Lectures
     </div>
 
@@ -136,6 +136,8 @@
 
     <script>
         const PASSWORD = "1234"; // Change this to your actual password
+        let selectedClass = "";
+        let currentStep = "password"; // Track the current step
 
         const lectures = {
             class10: {
@@ -164,23 +166,23 @@
             }
         };
 
-        let selectedClass = "";
-
         function checkPassword(className) {
             let enteredPassword = document.getElementById("password").value;
             if (enteredPassword === PASSWORD) {
-                showSubjects(className);
+                selectedClass = className;
+                showSubjects();
             } else {
                 alert("Incorrect password! Please try again.");
             }
         }
 
-        function showSubjects(className) {
-            selectedClass = className;
+        function showSubjects() {
+            currentStep = "subject";
             document.getElementById("password-dialog").style.display = "none";
             document.getElementById("subject-selection").style.display = "block";
+            document.getElementById("back-button").style.display = "block";
 
-            const subjects = Object.keys(lectures[className]);
+            const subjects = Object.keys(lectures[selectedClass]);
             const subjectButtons = document.getElementById("subject-buttons");
             subjectButtons.innerHTML = ""; 
 
@@ -194,6 +196,7 @@
         }
 
         function showLectures(subjectName) {
+            currentStep = "video";
             document.getElementById("subject-selection").style.display = "none";
             document.getElementById("main-container").style.display = "block";
 
@@ -219,8 +222,39 @@
         }
 
         function goBack() {
-            location.reload();
+            if (currentStep === "video") {
+                document.getElementById("main-container").style.display = "none";
+                document.getElementById("subject-selection").style.display = "block";
+                currentStep = "subject";
+            } else if (currentStep === "subject") {
+                document.getElementById("subject-selection").style.display = "none";
+                document.getElementById("password-dialog").style.display = "block";
+                document.getElementById("back-button").style.display = "none";
+                currentStep = "password";
+            }
         }
+        function goBack() {
+    stopAllVideos(); // Stop any playing video
+
+    if (currentStep === "video") {
+        document.getElementById("main-container").style.display = "none";
+        document.getElementById("subject-selection").style.display = "block";
+        currentStep = "subject";
+    } else if (currentStep === "subject") {
+        document.getElementById("subject-selection").style.display = "none";
+        document.getElementById("password-dialog").style.display = "block";
+        document.getElementById("back-button").style.display = "none";
+        currentStep = "password";
+    }
+}
+
+// Function to stop all playing videos
+function stopAllVideos() {
+    document.querySelectorAll("iframe").forEach(iframe => {
+        iframe.src = iframe.src; // Reset the iframe source to stop playback
+    });
+}
+
     </script>
 
 </body>
